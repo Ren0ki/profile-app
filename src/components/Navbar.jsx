@@ -1,4 +1,5 @@
 import styles from "../styles/navbar.module.css";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ mode, updateMode }) => {
 
@@ -6,11 +7,15 @@ const Navbar = ({ mode, updateMode }) => {
 
         <nav className={`${styles["navbar"]}`}>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Profiles</a></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/add-profile">Collaborate</Link></li>
             </ul>
- 
+
+            <button onClick={updateMode}>
+                {mode === "light" ? "Light Mode" : "Dark Mode"}
+            </button>
+
         </nav>
     );
 };

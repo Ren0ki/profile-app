@@ -3,7 +3,7 @@ import style from "../styles/ProfileForm.module.css";
 
 const ProfileForm = () => {
 
-    const [data, setData] = useState({ name: "", title: "", bio: "", image: null});
+    const [data, setData] = useState({ name: "", email: "", title: "", bio: "", image: null});
     const [errors, setErrors] = useState({ image: "", general: ""});
     const [submitting, setSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
@@ -39,12 +39,13 @@ const ProfileForm = () => {
             console.log(data.image+"test");
             try{
 
-                const response = await fetch("https://eb.ics.purdue.edu/~glagman/profile-app/send-data.php",{
+                const response = await fetch("https://web.ics.purdue.edu/~glagman/profile-app/send-data.php",{
                     method: "POST",
                     body: formData,
                 });
-                const result = await repsonse.json();
                 
+                const result = await response.json();
+
                 if(result.success){
                    
                     setData({ name: "", title: "", email: "", bio: "", image: null});
@@ -61,8 +62,7 @@ const ProfileForm = () => {
 
 
             }catch(error){
-
-                setErrors({image: "", general: error});
+                setErrors({image: "", general: error.message});
             }finally{
                 setSubmitting(false);
             }
@@ -73,7 +73,6 @@ const ProfileForm = () => {
             <form onSubmit={handleSubmit} className={style["profile-form"]}>
 
                 <input
-
                     type="text"
                     name="name"
                     placeholder="Name"
@@ -81,27 +80,36 @@ const ProfileForm = () => {
                     value={data.name}
                     onChange={handleChange}
                 />
-                 <input
 
+                 <input
                     type="text"
-                    name="name"
+                    name="email"
                     placeholder= "Email"
                     required
-                    value={data.name}
+                    value={data.email}
                     onChange={handleChange}
                 />
+
+                <input 
+                    type="text"
+                    name="title"
+                    placeholder="Field of Work"
+                    required
+                    value={data.title}
+                    onChange={handleChange}
+                />
+
                 <textarea 
-                
                     name="bio"
                     placeholder="Share anything you would like us to know about your work!"
                     maxLength={200}
                     required
                     value={data.bio}
                     onChange={handleChange}
-                
                 ></textarea>
-                <p>{data.bio.length}/200</p>
-                    <label htmlFor="image"> Choose a profile picture :</label>
+
+                <p className = "limit">{data.bio.length}/200</p>
+                    <label htmlFor="image"> <p className="limit"> Choose a profile picture : </p></label>
                     <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg, image/gif " onChange={handleChange}/>
                     {errors.image && <p className={style[`error`]}>{errors.image}</p>}
                 
@@ -111,8 +119,8 @@ const ProfileForm = () => {
                     data.name.trim() === "" || 
                     data.email.trim() === "" || 
                     data.title.trim() === "" || 
-                    data.bio.trim() === "" || 
-                    data.image === null? true: false
+                    data.bio.trim() === null || 
+                    data.image === ""
                 }>Submit</button>
                 
                 {errors.general && <p className={style['error']}>{errors.general}</p>}

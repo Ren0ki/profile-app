@@ -80,3 +80,9 @@
     }
   
   }
+
+  p.limit {
+
+    color: var(--button-background-color);
+
+  }
