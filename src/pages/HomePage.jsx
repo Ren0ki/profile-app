@@ -8,7 +8,8 @@ import styles from "../styles/home.module.css";
 
 const HomePage = () => {
 
-  const [title, setTitle] = useState("");
+  const [titles, setTitles] = useState([]);
+  const [title, setTitle] = useState(""); 
   const [search, setSearch] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [page, setPage] = useState(1);
@@ -18,11 +19,10 @@ const HomePage = () => {
       fetch("https://web.ics.purdue.edu/~glagman/profile-app/get-titles.php")
       .then((res) => res.json())
       .then((data) => {
-      console.log(data.titles)
-      setTitles(data.titles || []);
+      setTitles(data.titles);
 
-    })
-  }, [])
+    });
+  }, []);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -50,7 +50,7 @@ const HomePage = () => {
     setPage(1);
   };
 
-  const titles = [...new Set(profiles.map((profile) => profile.title))];
+  //const titles = [...new Set(profiles.map((profile) => profile.title))];
 
   const filteredProfiles = profiles.filter(
     (profile) =>
