@@ -19,6 +19,7 @@ const HomePage = () => {
       .then((res) => res.json())
       .then((data) => {
       console.log(data.titles)
+      setTitles(data.titles || []);
 
     })
   }, [])
