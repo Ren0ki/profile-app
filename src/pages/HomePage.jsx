@@ -4,12 +4,13 @@ import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "../styles/home.module.css";
 
 const HomePage = () => {
 
-  const [titles, setTitles] = useState([]);
   const [title, setTitle] = useState(""); 
+  const [titles, setTitles] = useState([]);
   const [search, setSearch] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [page, setPage] = useState(1);
@@ -35,7 +36,8 @@ const HomePage = () => {
   };
 
     useEffect(() => {
-    fetch(`https://web.ics.purdue.edu/~glagman/profile-app/fetch-data-with-filter.php?title=${title}&name=${search}&page=${page}&limit=10`)
+    fetch(`https://web.ics.purdue.edu/~glagman/profile-app/fetch-data-with-filter.php?title=${title}&name=${search}&page=${page}&limit=10`
+    )
     .then((res) => res.json())
     .then((data) => {
     setProfiles(data.profiles);

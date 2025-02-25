@@ -34,6 +34,7 @@ const ProfileForm = () => {
             formData.append("email", data.email.trim());
             formData.append("title", data.title.trim());
             formData.append("bio", data.bio.trim());
+            formData.append("id", displayedProfilke.id || "") //update id and
             
             if(data.image) formData.append("image", data.image);
             console.log(data.image+"test");
@@ -43,7 +44,6 @@ const ProfileForm = () => {
                     method: "POST",
                     body: formData,
                 });
-                
                 const result = await response.json();
 
                 if(result.success){
