@@ -3,62 +3,53 @@ import Wrapper from "../components/Wrapper";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/home.module.css";
+import { initialState, homeReducer } from "../reducers/homeReducer";
+import usePagination from "../hooks/paginationHook";
 
 const HomePage = () => {
 
-  const [title, setTitle] = useState(""); 
-  const [titles, setTitles] = useState([]);
-  const [search, setSearch] = useState("");
-  const [profiles, setProfiles] = useState([]);
-  const [page, setPage] = useState(1);
-  const [count, setCount] = useState(1);
+  const [state, dispatch] = useReducer(homeReducer, initialState);
+  const { titles, title, search, profiles, page, count } = state;
+
+  const{previousPage, nextPage} = usePagination(count);
 
       useEffect(() => {
       fetch("https://web.ics.purdue.edu/~glagman/profile-app/get-titles.php")
       .then((res) => res.json())
       .then((data) => {
-      setTitles(data.titles);
+        dispatch({ type: "SET_TITLES", payload: data.titles });
 
     });
   }, []);
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-    setPage(1);
-  };
+    const handleTitleChange = (event) => {
 
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-    setPage(1);
-  };
+      dispatch({type: "SET_TITLE", payload: event.target.value});
+    };
+
+  
+    const handleSearchChange = (event) => {
+      dispatch({ type: "SET_SEARCH", payload: event.target.value });
+    }
 
     useEffect(() => {
-    fetch(`https://web.ics.purdue.edu/~glagman/profile-app/fetch-data-with-filter.php?title=${title}&name=${search}&page=${page}&limit=10`
-    )
-    .then((res) => res.json())
-    .then((data) => {
-    setProfiles(data.profiles);
-    setCount(data.count);
-    setPage(data.page);
-    })
-    }, [title, search, page]);
-    
-  const handleClear = () => {
-    setTitle("");
-    setSearch("");
-    setPage(1);
-  };
 
-  //const titles = [...new Set(profiles.map((profile) => profile.title))];
+      fetch(
+        `https://web.ics.purdue.edu/~glagman/profile-app/fetch-data-with-filter.php?title=${title}&name=${search}&page=${page}&limit=10`
+      )
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({type: "FETCH_DATA", payload: data});
+      });
 
-  const filteredProfiles = profiles.filter(
-    (profile) =>
-     (title === "" || profile.title === title) &&
-      profile.name.toLowerCase().includes(search.toLowerCase())
-  );
+    }, [title. search, page]); //check
+
+    const handleClear = () => {
+      dispatch({ type: "CLEAR_FILTER"});
+   };
 
   const buttonStyle = {
     border: "1px solid #ccc",
@@ -123,16 +114,13 @@ const HomePage = () => {
         
         <div className="profile-cards">
             
-          {filteredProfiles.map((profile) => (
-           
-           <Card
-              key={profile.email}
-              {...profile}
-            /> 
-
+          {profiles.map((profile) => (
+            <div className = "profile-card" key={profile.email}>
+              <Card {...profile} /> 
+            </div>
             )
-        )}
-  </div>
+          )}
+       </div>
   
   {
     count === 0 && <p> No profiles found! </p>
@@ -142,13 +130,13 @@ const HomePage = () => {
             
   <div className="pagination">
 
-    <button onClick = {() => setPage(page - 1)} disabled={page === 1}> 
+    <button onClick = {previousPage} disabled={page === 1}> 
       <span className="sr-only"> Previous </span>
     </button>
               
     <span> {page}/{Math.ceil(count/10)} </span>
               
-    <button onClick = {() => setPage(page + 1)} disabled={page >= Math.ceil(count/10)}> Next 
+    <button onClick = {previousPage} disabled={page >= Math.ceil(count/10)}> Next 
       <span className="sr-only"> Next </span>
     </button> 
               

@@ -1,10 +1,18 @@
 .navbar {
 
-    background-color: var(--primary-background-color);
+    
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 1rem 4rem;
+    margin-left: auto;
+    background-color: var(--primary-background-color);
+
+    
+    &.dark{
+
+        background-color: var(--dark-background-color);
+
+    }
 
     ul{
 
@@ -22,12 +30,19 @@
             }
 
             a:hover{
-                color: var(--link-hover-color);
+                color: var(--text-color);
             }
         }
     }
 
 button{
     margin-bottom: 0;
+    margin-left: auto;
+
+    button:hover{
+
+        background-color: #999b91;
+
+    }
 }
 }

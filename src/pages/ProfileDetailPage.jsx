@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Wrapper  from "../components/Wrapper";
+import Wrapper from "../components/Wrapper";
+import styles from "../styles/profiledetail.module.css";
 import { Link } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
 const ProfileDetailPage = () => {
 
     const [profile, setProfile] = useState({});
     const { id } = useParams();
+    const{ isLogin } =useContect(AuthContext);
+    
     useEffect(() => {
-
         fetch(`https://web.ics.purdue.edu/~glagman/profile-app/fetch-data-with-id.php?id=${id}`)
         .then((res) => res.json())
         .then((data) => {
@@ -30,7 +33,7 @@ const ProfileDetailPage = () => {
                 </p>
                 <p> {profile.bio }</p>
                 <img src={profile.img} alt={profile.name} />
-                <Link to ="edit" className={styles['button']}> Edit Profile </Link>
+                {isLogin && <Link to ="edit" className={styles['button']}> Edit Profile </Link>}
             </div>
         </Wrapper>
     );

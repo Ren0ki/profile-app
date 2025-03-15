@@ -1,7 +1,20 @@
 import styles from "../styles/navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ModeContext from "../contexts/ModeContext";
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
 
-const Navbar = ({ mode, updateMode }) => {
+const Navbar = () => {
+
+    const {mode, handleModeChange} = useContext(ModeContext);
+    const {isLogin, logout} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const handleClick = () => {
+
+        logout();
+        navigate("/login");
+
+    }
 
     return (
 
@@ -11,11 +24,17 @@ const Navbar = ({ mode, updateMode }) => {
                 <li><Link to="/about">About</Link></li>
                 <li><Link to="/add-profile">Collaborate</Link></li>
             </ul>
-
-            <button onClick={updateMode}>
+            {isLogin? 
+                
+                <button onClick={handleClick} style={{marginLeft: "10px"}}>Logout</button> : 
+                <ul>
+                    <li><Link to="/login">Login</Link></li>
+                </ul>
+           
+            }
+            <button onClick={handleModeChange}>
                 {mode === "light" ? "Light Mode" : "Dark Mode"}
             </button>
-
         </nav>
     );
 };

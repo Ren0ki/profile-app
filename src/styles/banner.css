@@ -1,11 +1,23 @@
 .banner-container{
 
     background-image: url("../assets/banner.png");
+
+    &.dark{
+        background-image: url("../assets/darkBanner.png");
+    }
+    
     background-size: cover;
     align-content: center;
     text-align: center;
-    margin-top: 4rem;
     padding: 50px;
     box-shadow: var(--box-shadow);
     border: 5px outset var(--primary-background-color);
+    color: black;
+
+}
+
+h1{
+
+    font-size: 3rem;
+
 }

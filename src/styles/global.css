@@ -1,11 +1,11 @@
 body {
 
     font-family: var(--font-family);
-    background-color: var(--secondary-background-color);
     color: var(--text-color);
     font-size: 1rem;
     margin: 0;
     padding: 0;
+
 
     p.limit{
 
@@ -14,19 +14,48 @@ body {
     }
 
   }
+  
 
   main {
 
+    background-color: var(--secondary-background-color);
     height: 100%;
     min-height: 100vh;
 
+    &.dark{
+      
+      background-color: var(--dark-background-color);
+      
+      h1, h2, h2, h3, p, a
+      {
+        color: var(--dark-text-color);
+      }
+      a:hover{
+        color: var(--dark-link-hover-color);
+      }
+      .banner-container{
+        h1, h2, p{
+        color: black;
+        }
+      }
+      .filter--search, .filter--select
+      {
+        color: var(--dark-text-color);
+      }
+
+    }
+
   }
-  
+
   h1, h2, h3, p {
 
     color: var(--text-color);
     font-family: var(--font-family);
     margin-bottom: 0.625rem;
+
+    &.dark{
+      color: var(--dark-text-color);
+    }
 
   }
   
@@ -48,6 +77,13 @@ body {
 
     font-size: 1.6rem;
     text-align: center;
+    color: var(--text-color);
+
+    &.dark{
+
+      color: var(--dark-text-color);
+
+    }
 
   }
   
@@ -62,8 +98,9 @@ body {
   
   a {
 
-    color: var(--link-color);
+    color: var(--text-color);
     text-decoration: none;
+
 
   }
   
@@ -127,8 +164,8 @@ body {
 
   button:hover {
 
-    background-color: var(--button-hover-background-color);
-    color: var(--button-hover-text-color);
+    background-color:#5c5d57;
+    color: var(--secondary-background-color);
 
   }
 
@@ -157,10 +194,3 @@ body {
 
   }
 
-  p {
-
-    padding-top: 1rem;
-    padding-left: 10rem;
-    padding-right: 10rem;
-
-  }

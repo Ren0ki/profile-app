@@ -1,14 +1,14 @@
 import {useState} from "react";
 import style from "../styles/ProfileForm.module.css";
 
-const ProfileForm = () => {
+const ProfileForm = ({displayedProfile = {}}) => {
 
     const [data, setData] = useState({ name: "", email: "", title: "", bio: "", image: null});
     const [errors, setErrors] = useState({ image: "", general: ""});
     const [submitting, setSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
 
-    const handleChange = (e) => {
+    /*const handleChange = (e) => {
 
         if(e.target.name === "image"){
             const file = e.target.files[0];
@@ -34,7 +34,7 @@ const ProfileForm = () => {
             formData.append("email", data.email.trim());
             formData.append("title", data.title.trim());
             formData.append("bio", data.bio.trim());
-            formData.append("id", displayedProfilke.id || "") //update id and
+            //formData.append("id", displayedProfile.id || "") //update id and
             
             if(data.image) formData.append("image", data.image);
             console.log(data.image+"test");
@@ -66,10 +66,10 @@ const ProfileForm = () => {
             }finally{
                 setSubmitting(false);
             }
-        };
+        };*/
 
         return (
-
+            
             <form onSubmit={handleSubmit} className={style["profile-form"]}>
 
                 <input
